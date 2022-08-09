@@ -30,4 +30,4 @@ function outputMessage(message) {
   document.querySelector('.chat-messages').appendChild(div);
 }
 
-// starts at 24:30
+// starts at 24:35

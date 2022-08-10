@@ -4,6 +4,7 @@ const express = require('express');
 const socketio = require('socket.io');
 const formatMessage = require('./utils/messages');
 const { userJoin, getCurrentUser, userLeave, getRoomUsers } = require('./utils/users');
+
 const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
@@ -24,7 +25,11 @@ io.on('connection', socket => {
         socket.emit('message', formatMessage(botName, 'Welcome to ChatCord!'));
 
         // Broadcast when a user connects
-        socket.broadcast.to(user.room).emit('message', formatMessage(botName, `${user.username} has joined the chat`));
+        socket.broadcast
+        .to(user.room)
+        .emit('message',
+        formatMessage(botName, `${user.username} has joined the chat`)
+        );
 
         // Send users and room info
         io.to(user.room).emit('roomUsers', {
@@ -45,17 +50,19 @@ io.on('connection', socket => {
         const user = userLeave(socket.id);
 
         if(user) {
-          io.to(user.room).emit('message', formatMessage(botName, `${user.username} has left the chat`));  
+          io.to(user.room).emit
+          ('message', 
+          formatMessage(botName, `${user.username} has left the chat`)
+        );  
 
+        // Send users and room info
           io.to(user.room).emit('roomUsers', {
             room: user.room,
-            users: getRoomUsers(user.room)
+            users: getRoomUsers(user.room),
           });
         }
     });
-
-
-})
+});
 
 const PORT = 3000 || process.env.PORT;
 

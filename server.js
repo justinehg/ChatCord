@@ -12,7 +12,7 @@ const io = socketio(server);
 // Set static folder
 app.use(express.static(path.join(__dirname, 'public')));
 
-const botName = 'Mr.Bot';
+const botName = 'Mr.Botman';
 
 // Run when client connects
 io.on('connection', socket => {
